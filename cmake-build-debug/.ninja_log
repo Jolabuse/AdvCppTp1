@@ -1,0 +1,7 @@
+# ninja log v5
+4	762	6770076453384237	CMakeFiles/TP1.dir/main.cpp.obj	167fb53cab3a3f41
+39	170	6770029206542147	CMakeFiles/TP1.dir/parenthesisManager.cpp.obj	4cf0a67956d0e48f
+2	536	6769946795364413	build.ninja	af20376914e9ce90
+762	991	6770076455664248	TP1.exe	fa9bac24ccbf6e71
+4	752	6770077062140324	CMakeFiles/TP1.dir/main.cpp.obj	167fb53cab3a3f41
+752	980	6770077064400666	TP1.exe	fa9bac24ccbf6e71
