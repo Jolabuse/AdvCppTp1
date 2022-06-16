@@ -1,7 +1,9 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <cmath>
 #include "parenthesisManager.h"
+
 
 using namespace std;
 
@@ -161,7 +163,7 @@ int getPriority(std::string const ope){
     }if(ope == "power") {
         return 3;
     }if(ope == "!") {
-        return 2;
+        return 3;
     }if(ope == "%") {
         return 2;
     }
@@ -194,9 +196,23 @@ int operator % (string a, string b){
 }
 
 double operator ^(string a, string b){
-    double res = 1,a1 = stod(a);
-    for (int i=0;i<stoi(b);i++){
-        res=res*a1;
+    double res = 1,a1 = stod(a),realPart,intPart;
+    realPart = std::modf(stod(b),&intPart);
+    if(realPart != 0.5) {
+        if(realPart == 0) {
+            for (int i = 0; i < stoi(b); i++) {
+                res = res * a1;
+            }
+        }
+        else{
+            throw std::invalid_argument("error");
+        }
+    }else
+    {
+        for (int i = 0; i < intPart; i++) {
+            res = res * a1;
+        }
+        res = res* sqrt(a1);
     }
     return res;
 }
@@ -246,6 +262,11 @@ double doOperation(vector<string> ope){
             ope.erase(ope.begin()+ind-1,ope.begin()+ind+2);
             ope.insert(ope.begin()+ind-1, to_string(res));
         }
+        else{
+            res = resGivenOpe(vector<string>(ope.begin()+ind-1,ope.begin()+ind+1));
+            ope.erase(ope.begin()+ind-1,ope.begin()+ind+1);
+            ope.insert(ope.begin()+ind-1, to_string(res));
+        }
     }
     return stod(ope.at(0));
 }
@@ -277,12 +298,22 @@ double doOperationParenthesis(vector<string> ope){
 
 
 int main() {
-    vector<std::string> divOpe = divideOperation("4*(5+8)+9/(55+5)+8-99power4*5-8");
-    for (auto const& s : divOpe) {
-        std::cout << s<<endl;
+    string input;
+    vector<std::string> divOpe;
+    while(true) {
+        try{
+            cout << "enter a correct formula with ^ written as 'power' without spaces\nand write the * before or after the parenthesis: " << endl;
+            cin >> input;
+            divOpe = divideOperation(input);
+            cout<<"The result is : "<<doOperationParenthesis(divOpe)<<endl;
+            break;
+        }catch(const exception & e){
+            cout<< "There is a mistake in your input" <<endl;
+        }
+
     }
 
-    cout<<doOperationParenthesis(divOpe);
+
 
     return 0;
 }
