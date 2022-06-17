@@ -147,6 +147,7 @@ vector<std::string> divideOperation(std::string const ope){
     dividedOpe = split(dividedOpe,")");
     dividedOpe = split(dividedOpe,"!");
     dividedOpe = splitPower(dividedOpe);
+    dividedOpe = split(dividedOpe,"^");
     dividedOpe = split(dividedOpe,"%");
     return dividedOpe;
 }
@@ -166,6 +167,9 @@ int getPriority(std::string const ope){
         return 3;
     }if(ope == "%") {
         return 2;
+    }
+    if(ope == "^"){
+        return 3;
     }
     return -1;
 }
@@ -247,6 +251,9 @@ double resGivenOpe(vector<string> ope){
     if(ope.at(1) == "power"){
         return ope.at(0) ^ ope.at(2);
     }
+    if(ope.at(1) == "^"){
+        return ope.at(0) ^ ope.at(2);
+    }
 }
 
 double doOperation(vector<string> ope){
@@ -288,10 +295,6 @@ double doOperationParenthesis(vector<string> ope){
         else{
             return doOperation(ope);
         }
-        for (string s:ope) {
-            cout<<s;
-        }
-        cout<<endl;
     }
     return stod(ope.at(0));
 }
@@ -300,12 +303,14 @@ double doOperationParenthesis(vector<string> ope){
 int main() {
     string input;
     vector<std::string> divOpe;
+    double res;
     while(true) {
         try{
             cout << "enter a correct formula with ^ written as 'power' without spaces\nand write the * before or after the parenthesis: " << endl;
             cin >> input;
             divOpe = divideOperation(input);
-            cout<<"The result is : "<<doOperationParenthesis(divOpe)<<endl;
+            res =doOperationParenthesis(divOpe);
+            cout<<"The result is : "<<res<<endl;
             break;
         }catch(const exception & e){
             cout<< "There is a mistake in your input" <<endl;
